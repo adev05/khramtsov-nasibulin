@@ -1,11 +1,13 @@
 """Проверка существования клиента через HTTP API сервиса клиентов."""
 
-import httpx
 from fastapi import HTTPException, status
+import os
+import httpx
 
 from orders.config import settings
 
 
+# Перед сохранением нового заказа сервис отправляет запрос в сервис клиентов и проверяет существование клиента с указанным идентификатором.
 def ensure_account_exists(account_id: int) -> None:
     url = f"{settings.accounts_url.rstrip('/')}/accounts/{account_id}"
     try:

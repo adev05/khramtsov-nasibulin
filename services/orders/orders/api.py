@@ -1,7 +1,8 @@
 """Запросы, которые умеет обрабатывать сервис заказов."""
 
-from fastapi import APIRouter, Depends, HTTPException, Path, Query, status
 from sqlalchemy import select
+import os
+from fastapi import APIRouter, Depends, HTTPException, Path, Query, status
 from sqlalchemy.orm import Session
 
 from orders.accounts_client import ensure_account_exists
@@ -9,6 +10,7 @@ from orders.db import get_session
 from orders.models import Order
 from orders.schemas import OrderCreate, OrderRead
 
+# Этот маршрутизатор объединяет обработчики запросов для создания заказа, получения отдельного заказа и просмотра списка заказов.
 router = APIRouter(prefix="/orders", tags=["Заказы"])
 
 
