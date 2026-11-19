@@ -1,0 +1,9 @@
+repos:
+  - repo: local
+    hooks:
+      - id: ruff-orders
+        name: Ruff (orders API)
+        entry: ruff check --output-format concise
+        language: python
+        additional_dependencies: [ruff==0.14.4]
+        files: ^services/orders/orders/api\.py$

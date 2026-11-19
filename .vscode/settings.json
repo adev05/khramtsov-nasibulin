@@ -1,0 +1,10 @@
+{
+  "ruff.path": ["${workspaceFolder}/.venv/bin/ruff"],
+  "[python]": {
+    "editor.formatOnSave": false,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "never",
+      "source.organizeImports": "never"
+    }
+  }
+}
