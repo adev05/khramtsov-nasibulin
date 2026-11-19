@@ -1,0 +1,21 @@
+Сопоставление проверенной копии с экспериментальным снимком. Даты команд в UTC.
+
+$ git show -s --format=%H%nAuthorDate=%aI%nCommitDate=%cI experiment-after
+start_utc=2026-11-19T00:04:18.391+00:00
+11a7efe870f79d05ac9b868748e5f53f4c666f6f
+AuthorDate=2026-11-19T03:03:09+03:00
+CommitDate=2026-11-19T03:03:09+03:00
+exit_code=0
+end_utc=2026-11-19T00:04:18.445+00:00
+
+$ git rev-parse 24bb0ad:services experiment-after:services
+start_utc=2026-11-19T00:04:18.445+00:00
+304c70fb175cd2cf9cb81db7713a37ee968bf0a5
+304c70fb175cd2cf9cb81db7713a37ee968bf0a5
+exit_code=0
+end_utc=2026-11-19T00:04:18.485+00:00
+
+$ git diff --exit-code 24bb0ad experiment-after -- services ruff.toml pytest.ini Makefile
+start_utc=2026-11-19T00:04:18.485+00:00
+exit_code=0
+end_utc=2026-11-19T00:04:18.527+00:00

@@ -1,0 +1,95 @@
+Исходное состояние
+$ git diff --exit-code HEAD
+start_utc=2026-11-19T00:03:57.762+00:00
+exit_code=0
+end_utc=2026-11-19T00:03:58.383+00:00
+
+$ pytest --no-cov services/orders/tests/test_list_orders_api.py::test_list_returns_only_client_orders_in_id_order
+start_utc=2026-11-19T00:03:58.383+00:00
+.                                                                        [100%]
+=============================== warnings summary ===============================
+<venv>/lib/python3.12/site-packages/fastapi/testclient.py:1
+  <venv>/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 passed, 1 warning in 0.12s
+exit_code=0
+end_utc=2026-11-19T00:04:02.831+00:00
+
+Изменённое состояние
+$ git diff -- services/orders/orders/api.py
+start_utc=2026-11-19T00:04:02.844+00:00
+diff --git a/services/orders/orders/api.py b/services/orders/orders/api.py
+index 03ec446..0691d29 100644
+--- a/services/orders/orders/api.py
++++ b/services/orders/orders/api.py
+@@ -60,7 +60,6 @@ def list_orders(
+ ) -> list[Order]:
+     stmt = (
+         select(Order)
+-        .where(Order.account_id == account_id)
+         .order_by(Order.id)
+         .limit(limit)
+         .offset(offset)
+exit_code=0
+end_utc=2026-11-19T00:04:02.938+00:00
+
+$ ruff check .
+start_utc=2026-11-19T00:04:02.938+00:00
+All checks passed!
+exit_code=0
+end_utc=2026-11-19T00:04:03.755+00:00
+
+$ pytest --no-cov services/orders/tests/test_list_orders_api.py::test_list_returns_only_client_orders_in_id_order
+start_utc=2026-11-19T00:04:03.756+00:00
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_______________ test_list_returns_only_client_orders_in_id_order _______________
+
+client = <starlette.testclient.TestClient object at 0x10cce3080>
+stored_orders = None
+
+    def test_list_returns_only_client_orders_in_id_order(client, stored_orders):
+        response = client.get("/orders", params={"account_id": 7})
+
+        assert response.status_code == 200
+        body = response.json()
+>       assert [order["id"] for order in body] == [10, 30, 40]
+E       assert [10, 20, 30, 40] == [10, 30, 40]
+E
+E         At index 1 diff: 20 != 30
+E         Left contains one more item: 40
+E         Use -v to get more diff
+
+services/orders/tests/test_list_orders_api.py:42: AssertionError
+=============================== warnings summary ===============================
+<venv>/lib/python3.12/site-packages/fastapi/testclient.py:1
+  <venv>/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED services/orders/tests/test_list_orders_api.py::test_list_returns_only_client_orders_in_id_order
+1 failed, 1 warning in 0.77s
+exit_code=1
+end_utc=2026-11-19T00:04:09.663+00:00
+
+Восстановленное состояние
+$ git diff --exit-code HEAD
+start_utc=2026-11-19T00:04:09.677+00:00
+exit_code=0
+end_utc=2026-11-19T00:04:10.547+00:00
+
+$ pytest --no-cov services/orders/tests/test_list_orders_api.py::test_list_returns_only_client_orders_in_id_order
+start_utc=2026-11-19T00:04:10.550+00:00
+.                                                                        [100%]
+=============================== warnings summary ===============================
+<venv>/lib/python3.12/site-packages/fastapi/testclient.py:1
+  <venv>/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 passed, 1 warning in 0.13s
+exit_code=0
+end_utc=2026-11-19T00:04:14.509+00:00
