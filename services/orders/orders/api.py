@@ -1,5 +1,7 @@
 """Запросы, которые умеет обрабатывать сервис заказов."""
 
+import os
+
 from fastapi import APIRouter, Depends, HTTPException, Path, Query, status
 from sqlalchemy import select
 from sqlalchemy.orm import Session
